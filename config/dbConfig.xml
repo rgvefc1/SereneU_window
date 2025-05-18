@@ -1,0 +1,9 @@
+<!-- dbconfig.xml -->
+<databaseConfig>
+ <host>aws-0-ap-northeast-2.pooler.supabase.com</host>
+ <port>6543</port>
+ <database>postgres</database>
+ <user>postgres.zhfbukvvjzgqnjxlyirt</user>
+ <password>supabasek12023!</password>
+ <pool_mode>transaction</pool_mode>
+</databaseConfig>
