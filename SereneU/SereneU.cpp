@@ -17,6 +17,7 @@
 #include <QStringListModel>
 #include <customerModel.h>
 #include <CustomerDetail.h>
+#include <UtilsCustomer.h>
 
 SereneU::SereneU(QWidget* parent)
     : QMainWindow(parent),
@@ -113,7 +114,8 @@ void SereneU::on_dbConnector_triggered()
 //전체 고객정보 불러오기
 void SereneU::onCustomerView()
 {
-    QueryManager::instance().fillCustomerData(ui->customerView,"","");
+    UtilsCustomer customer;
+    customer.allCustomerInfo(ui->customerView);
 }
 //고객정보 검색
 void SereneU::onCustomerSearch()

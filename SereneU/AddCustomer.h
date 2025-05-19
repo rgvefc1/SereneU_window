@@ -16,11 +16,7 @@ public:
     explicit AddCustomer(int mode,QWidget* parent = nullptr);
     ~AddCustomer();
 
-    bool isPhoneNumberExists(const QString& phoneNumber);
-
     void addCustomer(const QString& name, const QString& phoneNumber);
-
-    QMap<QString, QString> sellectCustomer(QString name, QString phone);
 
     void onSaveClicked();
     void onSearchClicked();

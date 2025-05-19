@@ -30,6 +30,7 @@ void CustomerModel::setDataFromQuery(QSqlQuery& query)
     endResetModel();
 }
 
+
 int CustomerModel::rowCount(const QModelIndex& parent) const
 {
     if (parent.isValid())

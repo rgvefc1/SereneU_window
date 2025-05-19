@@ -59,11 +59,7 @@
      </layout>
     </item>
     <item>
-     <widget class="QListView" name="listView">
-      <property name="batchSize">
-       <number>90</number>
-      </property>
-     </widget>
+     <widget class="QTableView" name="tableView"/>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">

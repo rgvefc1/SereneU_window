@@ -53,18 +53,19 @@
   <ImportGroup Label="ExtensionSettings">
     <Import Project="$(QtMsBuild)\Qt.targets" />
   </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(QtMsBuild)\Qt.props" />
+  </ImportGroup>
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(QtMsBuild)\Qt.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(QtMsBuild)\Qt.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <OutDir>$(SolutionDir)bin</OutDir>
+    <OutDir>$(SolutionDir)bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
   </PropertyGroup>
@@ -124,6 +125,8 @@
     <ClCompile Include="ReservationModel.cpp" />
     <ClCompile Include="SereneuUtils.cpp" />
     <ClCompile Include="ServiceTypeManager.cpp" />
+    <ClCompile Include="UtilsCustomer.cpp" />
+    <ClCompile Include="UtilsReservation.cpp" />
     <QtRcc Include="SereneU.qrc" />
     <QtUic Include="AddCustomer.ui" />
     <QtUic Include="AddReservation.ui" />
@@ -143,6 +146,8 @@
     <ResourceCompile Include="SereneU.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="UtilsCustomer.h" />
+    <ClInclude Include="UtilsReservation.h" />
     <QtMoc Include="ButtonDelegate.h" />
     <QtMoc Include="ConfirmDialog.h" />
     <QtMoc Include="ReservationDetail.h" />
@@ -159,9 +164,11 @@
     <ClInclude Include="QueryManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
-    <Import Project="$(QtMsBuild)\qt.targets" />
-  </ImportGroup>
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <!-- MSBuild 경고 → 메시지로만 출력 -->
+  <PropertyGroup>
+    <!-- 여러 코드 입력하려면 세미콜론으로 구분 -->
+    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB4011</MSBuildWarningsAsMessages>
+  </PropertyGroup>
 </Project>

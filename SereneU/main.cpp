@@ -4,7 +4,9 @@
 #include <QtCore/QResource>
 
 #include "SereneU.h"
-
+#include <qfile.h>
+#include <QDir>
+#include <QImageReader>
 
 
 int main(int argc, char *argv[])

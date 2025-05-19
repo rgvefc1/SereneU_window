@@ -11,31 +11,13 @@ CustomerDetail::CustomerDetail(const QString& customerId, QWidget* parent)
     : QDialog(parent), ui(new Ui::CustomerDetail), customerId(customerId)
 {
     ui->setupUi(this);
+    
+    //// 2) 기본 QPixmap 로드
+    //QPixmap defaultPixmap("C:/SereneU_window/bin/img/testImg.jpg");
+    //QSize targetSize(120, 120);
+    //ui->labelImg0->setPixmap(defaultPixmap);
+    //ui->labelImg0->setFixedSize(targetSize);
 
-    // ① 버튼 리스트에 넣기
-    /*imageBtns = {
-        ui->imageBtn1, ui->imageBtn2, ui->imageBtn3,
-        ui->imageBtn4, ui->imageBtn5, ui->imageBtn6,
-        ui->imageBtn7, ui->imageBtn8, ui->imageBtn9,
-        ui->imageBtn10
-    };*/
-    //// ① 먼저 모두 default 아이콘으로 세팅
-    //QIcon defaultIco(":/images/defaultImg.png");
-    //QSize iconSz = QSize(100, 100);  // Designer에서 설정한 크기와 동일하게
-    //for (auto btn : imageBtns) {
-    //    btn->setIcon(defaultIco);
-    //    btn->setIconSize(iconSz);
-    //    btn->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    //}
-    //// ② 클릭 시그널 연결 (람다 + [=] 캡처)
-    //for (int i = 0; i < imageBtns.size(); ++i) {
-    //    connect(imageBtns[i], &QToolButton::clicked, [this, i]() {
-    //        onImageBtnClicked(i);
-    //        });
-    //}
-
-    //// ③ 이미지 로딩
-    //loadImages();
 }
 
 CustomerDetail::~CustomerDetail() {

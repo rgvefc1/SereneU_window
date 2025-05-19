@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #ifndef RESERVATIONMODEL_H
 #define DBCREATOR_H
 #include <QtSql\QSqlRecord>
@@ -18,9 +18,9 @@ public:
     int columnCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
-
+     
 private:
-    QVector<QStringList> tableData;   // Çà·Ä µ¥ÀÌÅÍ ÀúÀå
-    QStringList headers;              // Çì´õ ÅØ½ºÆ® ÀúÀå
+    QVector<QStringList> tableData;   // í–‰ë ¬ ë°ì´í„° ì €ì¥
+    QStringList headers;              // í—¤ë” í…ìŠ¤íŠ¸ ì €ì¥
 };
 #endif
