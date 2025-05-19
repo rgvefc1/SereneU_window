@@ -6,6 +6,7 @@
 #include <CustomerModel.h>
 #include <qtableview.h>
 #include <ReservationModel.h>
+#include <QuaryManager.h>
 
 UtilsReservation::UtilsReservation()
 	:db(DBManager::instance().getDatabase()),  // ① DB 연결 가져오기
@@ -33,28 +34,8 @@ bool UtilsReservation::searchReservationByDate(QTableView* tableview, const QStr
     QSqlQuery cleanup(DBManager::instance().getDatabase());
     cleanup.exec("DEALLOCATE ALL");
 
-    QString queryStr = R"(
-                        SELECT "RESERVATION_ID" AS 예약번호,
-                               TO_CHAR("RESERVATION_TIME", 'YYYY-MM-DD HH24"시"MI"분"') AS 예약시간,
-                               "CUSTOMER_NAME" AS 고객이름,
-                               FORMAT('%s-%s-%s',
-                                      SUBSTRING(LPAD(CAST("CUSTOMER_PHONE" AS TEXT), 11, '0') FROM 1 FOR 3),
-                                      SUBSTRING(LPAD(CAST("CUSTOMER_PHONE" AS TEXT), 11, '0') FROM 4 FOR 4),
-                                      SUBSTRING(LPAD(CAST("CUSTOMER_PHONE" AS TEXT), 11, '0') FROM 8)
-                               ) AS 전화번호,
-                               "SERVICE_NAME" AS 시술종류,
-                               "DEPOSIT" AS 예약금,
-                               "RETOUCH" AS 리터치,
-                               "STATUS" AS 상태
-                        FROM "RESERVATION"
-                        JOIN "CUSTOMER" ON "RESERVATION"."CUSTOMER_ID" = "CUSTOMER"."CUSTOMER_PHONE"
-                        JOIN "SERVICE_TYPE" ON "RESERVATION"."SERVICE_TYPE" = "SERVICE_TYPE"."SERVICE_ID"
-                        WHERE "RESERVATION"."RESERVATION_TIME"::date = :reservationDate
-                        ORDER BY "RESERVATION_TIME";
-                        )";
-
     QSqlQuery query(DBManager::instance().getDatabase());
-    query.prepare(queryStr);
+    query.prepare(QueryManager::RESERVATION_BY_DATE);
     query.bindValue(":reservationDate", date);
 
     if (!query.exec()) {
@@ -185,7 +166,7 @@ bool UtilsReservation::insertReservation(ReservationData data)
 
     // 파라미터 바인딩
     query.bindValue(":customer_id", data.customerId);
-    query.bindValue(":service_type", data.serviceType);
+    query.bindValue(":service_type", data.serviceName);
     query.bindValue(":reservation_time", data.reservationTime);
     query.bindValue(":retouch", data.retouch);
     query.bindValue(":deposit", data.deposit);
@@ -213,7 +194,7 @@ bool UtilsReservation::updateReservation(ReservationData data)
     // 파라미터 바인딩
     query.bindValue(":reservation_time", data.reservationTime);
     query.bindValue(":customer_id", data.customerId);
-    query.bindValue(":service_type", data.serviceType);
+    query.bindValue(":service_type", data.serviceName);
     query.bindValue(":retouch", data.retouch);
     query.bindValue(":deposit", data.deposit);
     query.bindValue(":reservation_id", data.reservationId);

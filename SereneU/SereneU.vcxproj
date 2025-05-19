@@ -121,6 +121,7 @@
     <ClCompile Include="CustomerDetail.cpp" />
     <ClCompile Include="CustomerModel.cpp" />
     <ClCompile Include="DBConnector.cpp" />
+    <ClCompile Include="InsertCustomer.cpp" />
     <ClCompile Include="ReservationDetail.cpp" />
     <ClCompile Include="ReservationModel.cpp" />
     <ClCompile Include="SereneuUtils.cpp" />
@@ -133,19 +134,20 @@
     <QtUic Include="ConfirmDialog.ui" />
     <QtUic Include="CustomerDetail.ui" />
     <QtUic Include="DBConnector.ui" />
+    <QtUic Include="InsertCustomer.ui" />
     <QtUic Include="ReservationDetail.ui" />
     <QtUic Include="SereneU.ui" />
     <QtMoc Include="SereneU.h" />
-    <ClCompile Include="AddCustomer.cpp" />
     <ClCompile Include="AddReservation.cpp" />
     <ClCompile Include="DBManager.cpp" />
-    <ClCompile Include="QueryManager.cpp" />
     <ClCompile Include="SereneU.cpp" />
     <ClCompile Include="main.cpp" />
     <None Include="SereneU.ico" />
     <ResourceCompile Include="SereneU.rc" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="InsertCustomer.h" />
+    <ClInclude Include="QuaryManager.h" />
     <ClInclude Include="UtilsCustomer.h" />
     <ClInclude Include="UtilsReservation.h" />
     <QtMoc Include="ButtonDelegate.h" />
@@ -157,11 +159,9 @@
     <QtMoc Include="CustomerDetail.h" />
     <ClInclude Include="SereneuUtils.h" />
     <QtMoc Include="ServiceTypeManager.h" />
-    <QtMoc Include="AddCustomer.h" />
     <QtMoc Include="AddReservation.h" />
     <QtMoc Include="CenterDelegate.h" />
     <ClInclude Include="DBManager.h" />
-    <ClInclude Include="QueryManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

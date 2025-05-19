@@ -16,6 +16,15 @@ DBManager& DBManager::instance()
 DBManager::DBManager()
 {
     db = QSqlDatabase::addDatabase("QPSQL");
+    DBConfig config = loadDBConfig("../config/dbConfig.xml");
+    db.setHostName(config.host);
+    db.setPort(config.port);
+    db.setDatabaseName(config.database);
+    db.setUserName(config.user);
+    db.setPassword(config.password);
+    db.setConnectOptions("connect_timeout=3");
+
+
 }
 
 // 소멸자

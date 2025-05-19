@@ -5,6 +5,7 @@
 #include<QtSql\qsqlerror.h>
 #include <CustomerModel.h>
 #include <qtableview.h>
+#include <QuaryManager.h>
 
 UtilsCustomer::UtilsCustomer()
 	:db(DBManager::instance().getDatabase()),  // ① DB 연결 가져오기
@@ -105,31 +106,30 @@ bool UtilsCustomer::allCustomerInfo(QTableView* tableView)
     return true;
 }
 
-bool UtilsCustomer::insertCustomer(QWidget* parent,const QString& name, const QString& phoneNumber)
+QString UtilsCustomer::insertCustomer(CustomerData data)
 {
     QSqlQuery query;
-    query.prepare(R"(
-        INSERT INTO "CUSTOMER" ("CUSTOMER_NAME", "CUSTOMER_PHONE")
-        VALUES (:name, :phone)
-    )");
-    query.bindValue(":name", name);
-    query.bindValue(":phone", phoneNumber);
+    query.prepare(QueryManager::INSERT_CUSTOMER);
+    query.bindValue(":name", data.customerName);
+    query.bindValue(":phone", data.customerPhone);
+    query.bindValue(":birthDate", data.birthDate);
+    query.bindValue(":gender", data.gender);
+    query.bindValue(":address", data.address);
+    query.bindValue(":notes", data.memo);
 
     if (!query.exec()) {
-        QMessageBox::critical(parent, "오류", "고객 추가 실패: " + query.lastError().text());
-        return false;
+        return  query.lastError().text();
     }else{
-        QMessageBox::information(parent, "성공", "고객이 성공적으로 추가되었습니다.");
-        return true;
+        return "success";
     }
 }
 
-bool UtilsCustomer::updateCustomer(const QString& name, const QString& phoneNumber)
+bool UtilsCustomer::updateCustomer(CustomerData data)
 {
     return false;
 }
 
-bool UtilsCustomer::deleteCustomer(const QString& name, const QString& phoneNumber)
+bool UtilsCustomer::deleteCustomer(int customerId)
 {
     return false;
 }

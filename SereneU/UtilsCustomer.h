@@ -19,6 +19,7 @@ struct CustomerData {
     QString   address;           // 주소
     int       visitCount;        // 방문 횟수
     QDateTime lastVisitDate;     // 마지막 방문 날자
+    QString memo;
 
     CustomerData() = default;
 };
@@ -34,9 +35,9 @@ public:
 
     bool searchCustomerInfo(QTableView* parent,QString name, QString phone);
     bool allCustomerInfo(QTableView* tableView = nullptr);
-    bool insertCustomer(QWidget* parent, const QString& name, const QString& phoneNumber);
-    bool updateCustomer(const QString& name, const QString& phoneNumber);
-    bool deleteCustomer(const QString& name, const QString& phoneNumber);
+    QString insertCustomer(CustomerData data);
+    bool updateCustomer(CustomerData data);
+    bool deleteCustomer(int customerId);
 
     int allCustomerCount();
 private:

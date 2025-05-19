@@ -5,6 +5,8 @@
 #include "ui_SereneU.h"
 #include <DBManager.h>
 #include <qstringlistmodel.h>
+#include <UtilsReservation.h>
+#include <UtilsCustomer.h>
 
 class SereneU : public QMainWindow
 {
@@ -18,7 +20,8 @@ public:
     DBConfig config;
 private:
     Ui::SereneUClass* ui;
-    QStringListModel* listModel;
+    UtilsReservation reservation;
+    UtilsCustomer customer;
 private slots:
     void onCalendarDateClicked(const QDate& date);  // 날짜 선택 시 호출
     void onAddReservationButtonClicked();           // 예약 추가 버튼 클릭 시

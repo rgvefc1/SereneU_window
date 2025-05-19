@@ -36,7 +36,6 @@ void ReservationModel::setDataFromQuery(QSqlQuery& query)
         }
         tableData.append(row);
     }
-    headers.pop_back();
 
     endResetModel();
 }

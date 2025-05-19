@@ -5,6 +5,7 @@
 #include <QLineEdit>
 #include <QRadioButton>
 #include <QDate>
+#include <UtilsReservation.h>
 
 namespace Ui {
     class AddReservation;
@@ -26,6 +27,7 @@ signals:
 private:
     Ui::AddReservation* ui;
     QDate initialDate;            // 초기 선택된 날짜 저장
+    UtilsReservation reservation;
 private slots:
 
     void onCustomerSelected(const QString& selectedCustomer);

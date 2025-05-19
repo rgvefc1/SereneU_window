@@ -3,11 +3,10 @@
 
 #include "DBManager.h"
 #include <QStandardItemModel>
-#include <QueryManager.h>
+#include <QuaryManager.h>
 #include <CenterDelegate.h>
 #include <AddReservation.h>
 #include <QPushButton>
-#include <AddCustomer.h>
 #include <ServiceTypeManager.h>
 #include <QMessageBox>
 #include <ButtonDelegate.h>
@@ -18,10 +17,12 @@
 #include <customerModel.h>
 #include <CustomerDetail.h>
 #include <UtilsCustomer.h>
+#include <UtilsReservation.h>
+#include <InsertCustomer.h>
 
 SereneU::SereneU(QWidget* parent)
-    : QMainWindow(parent),
-    ui(new Ui::SereneUClass)
+    :   QMainWindow(parent),
+        ui(new Ui::SereneUClass)
 {
     ui->setupUi(this);
     config = DBManager::instance().loadDBConfig("../config/dbConfig.xml");
@@ -36,12 +37,6 @@ SereneU::SereneU(QWidget* parent)
     }
     // 서비스 유형 데이터 로드
     ServiceTypeManager::instance().loadServiceTypes();
-
-    QTableView* view = ui->reservationView;   // 예시
-    view->setDragEnabled(true);               // 드래그 시작 허용
-    view->setAcceptDrops(true);               // 드롭 허용
-    view->setDropIndicatorShown(true);        // 드롭 위치 가이드라인
-    view->setDragDropMode(QAbstractItemView::InternalMove); // 같은 뷰 내부 이동
 
     // 프로그램 시작 시 오늘 날짜 조회
     QDate today = QDate::currentDate();
@@ -82,10 +77,8 @@ void SereneU::onCalendarDateClicked(const QDate& date)
         qDebug() << "❌ 잘못된 날짜입니다.";
         return;
     }
-    QTableView* view = ui->reservationView;
-
     QString selectedDate = date.toString("yyyy-MM-dd");
-    bool success = QueryManager::instance().fillReservationsByDate(selectedDate, view);
+    bool success = reservation.searchReservationByDate(ui->reservationView, selectedDate);
 
     if (!success) {
         qDebug() << "❌ 예약 정보 로딩 실패";
@@ -101,9 +94,9 @@ void SereneU::applyCenterAlignment()
 //고객 추가 버튼 클릭
 void SereneU::onOpenAddCustomerDialog()
 {
-    AddCustomer* addAddCustomerDialog = new AddCustomer(0,this);
-    addAddCustomerDialog->setModal(true);  // 모달 모드
-    addAddCustomerDialog->exec();          // 모달로 창 띄우기
+    InsertCustomer* customer = new InsertCustomer();
+    customer->setModal(true);  // 모달 모드
+    customer->exec();          // 모달로 창 띄우기
 }
 //db연결 버튼 클릭
 void SereneU::on_dbConnector_triggered()
@@ -122,7 +115,7 @@ void SereneU::onCustomerSearch()
 {
     QString name = ui->customerName_2->text();
     QString phone = ui->customerPhone_2->text();
-    QueryManager::instance().fillCustomerData(ui->customerView, name, phone);
+    bool result = customer.searchCustomerInfo(ui->customerView, name, phone);
 }
 //고객리스트 더블 클릭 이벤트 처리
 void SereneU::onCustormrRowDoubleClicked(const QModelIndex& index)
