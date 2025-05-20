@@ -46,21 +46,7 @@ bool UtilsCustomer::isPhoneNumberExists(const QString& phoneNumber)
 bool UtilsCustomer::searchCustomerInfo(QTableView* tableView,QString name, QString phone)
 {
     QSqlQuery query;
-    query.prepare(R"(
-                        SELECT
-                            "CUSTOMER_NAME" AS "고객이름",
-                            FORMAT(
-                                '%s-%s-%s',
-                                SUBSTRING(LPAD(CAST("CUSTOMER_PHONE" AS TEXT), 11, '0') FROM 1 FOR 3),
-                                SUBSTRING(LPAD(CAST("CUSTOMER_PHONE" AS TEXT), 11, '0') FROM 4 FOR 4),
-                                SUBSTRING(LPAD(CAST("CUSTOMER_PHONE" AS TEXT), 11, '0') FROM 8 FOR 4)
-                            ) AS "전화번호"
-                        FROM "CUSTOMER"
-                        WHERE
-                            (COALESCE(CAST(:phone AS TEXT), '') = '' OR "CUSTOMER_PHONE"::TEXT ILIKE :phone)
-                          AND
-                            (COALESCE(:name, '') = '' OR "CUSTOMER_NAME" ILIKE :name)
-                    )");
+    query.prepare(QueryManager::SEARCH_CUSTOMER_INFO);
     query.bindValue(":name", name);
     query.bindValue(":phone", "%" + phone + "%");
 
@@ -132,6 +118,31 @@ bool UtilsCustomer::updateCustomer(CustomerData data)
 bool UtilsCustomer::deleteCustomer(int customerId)
 {
     return false;
+}
+
+CustomerData UtilsCustomer::customerInfo(CustomerData data)
+{
+    CustomerData result;
+    QSqlQuery query;
+    query.prepare(QueryManager::SEARCH_CUSTOMER_INFO);
+    query.bindValue(":name", data.customerName);
+    query.bindValue(":phone", "%" + data.customerPhone + "%");
+
+
+    if (!query.exec()) {
+        qDebug() << "❌ 쿼리 실패:" << query.lastError().text();
+        return data;
+    }
+    
+    result.customerId = query.value("고객번호").toInt();
+    result.customerName = query.value("고객이름").toString();
+    result.customerPhone = query.value("전화번호").toString();
+    result.birthDate = query.value("생년월일").toDate();
+    result.gender = query.value("성별").toBool();
+    result.address = query.value("주소").toString();
+    result.memo = query.value("NOTES").toString();
+
+    return result;
 }
 
 int UtilsCustomer::allCustomerCount()

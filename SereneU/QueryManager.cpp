@@ -75,17 +75,3 @@ bool QueryManager::updateReservation(int reservationId, QString customerId, int 
     DBManager::instance().getDatabase().commit();
     return true;
 }
-
-// 고객 수 조회
-int QueryManager::getCustomerCount()
-{
-    QSqlQuery query(DBManager::instance().getDatabase());
-    query.exec("SELECT COUNT(*) FROM customers");
-
-    if (query.next()) {
-        return query.value(0).toInt();
-    }
-
-    qDebug() << "❌ 고객 수 조회 실패: " << query.lastError().text();
-    return 0;
-}

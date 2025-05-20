@@ -77,14 +77,11 @@ QVariant CustomerModel::headerData(int section, Qt::Orientation orientation, int
         return QVariant();
 
     if (orientation == Qt::Horizontal) {
-        if (section == 0)
-            return "고객명";
-        else if (section == 1)
-            return "전화번호";
-        else if (section == 2)
-            return "예약횟수";
+        if (section >= 0 && section < headers.size())
+            return headers.at(section);          // ③ 동적 반환
+        return {};                               // 범위 초과 시 빈 QVariant
     }
 
-    return QVariant();
+    return section + 1;
 }
 

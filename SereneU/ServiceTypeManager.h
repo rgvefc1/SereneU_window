@@ -15,13 +15,11 @@ public:
     void loadServiceTypes();
     QString getServiceName(int serviceId) const;
     QMap<int, QString> getAllServiceTypes() const;
-
+    
 private:
     explicit ServiceTypeManager(QObject* parent = nullptr);
     ~ServiceTypeManager() = default;
-
     QMap<int, QString> serviceTypes;  // 서비스 ID와 이름 저장
-
     Q_DISABLE_COPY(ServiceTypeManager)  // 복사 방지
 };
 

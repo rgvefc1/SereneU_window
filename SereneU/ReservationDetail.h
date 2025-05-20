@@ -5,7 +5,6 @@
 #include <QLabel>
 #include <QCheckBox>
 #include <QPushButton>
-#include <AddReservation.h>
 
 namespace Ui {
     class ReservationDetail;

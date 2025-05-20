@@ -54,3 +54,4 @@ QMap<int, QString> ServiceTypeManager::getAllServiceTypes() const
 {
     return serviceTypes;
 }
+

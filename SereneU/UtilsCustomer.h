@@ -39,6 +39,8 @@ public:
     bool updateCustomer(CustomerData data);
     bool deleteCustomer(int customerId);
 
+    CustomerData customerInfo(CustomerData data);
+
     int allCustomerCount();
 private:
     QSqlDatabase db;

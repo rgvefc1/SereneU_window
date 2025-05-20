@@ -5,7 +5,6 @@
 #include <QStandardItemModel>
 #include <QuaryManager.h>
 #include <CenterDelegate.h>
-#include <AddReservation.h>
 #include <QPushButton>
 #include <ServiceTypeManager.h>
 #include <QMessageBox>
@@ -19,6 +18,7 @@
 #include <UtilsCustomer.h>
 #include <UtilsReservation.h>
 #include <InsertCustomer.h>
+#include <InsertReservation.h>
 
 SereneU::SereneU(QWidget* parent)
     :   QMainWindow(parent),
@@ -139,11 +139,8 @@ void SereneU::onAddReservationButtonClicked()
         QMessageBox::warning(this, "오류", "유효한 날짜를 선택하세요.");
         return;
     }
-
-    AddReservation addReservationDialog(this, selectedDate);  // 날짜 전달
-    connect(&addReservationDialog, &AddReservation::reservationCompleted,this, &SereneU::refreshCalendar);  // 예약 완료 시 새로고침
-
-    addReservationDialog.exec();
+    InsertReservation* resDlg = InsertReservation::showDialog(this, selectedDate);
+    connect(resDlg, &InsertReservation::reservationCompleted,this, &SereneU::refreshCalendar);  // 예약 완료 시 새로고침
 }
 
 // 🔄 캘린더 새로고침

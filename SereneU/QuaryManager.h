@@ -101,4 +101,24 @@ namespace QueryManager {
         INSERT INTO "CUSTOMER" ("CUSTOMER_NAME", "CUSTOMER_PHONE","BIRTH_DATE","GENDER","ADDRESS","NOTES")
         VALUES (:name, :phone,:birthDate,:gender,:address,:notes)
     )";
+
+    inline const QString SEARCH_CUSTOMER_INFO = R"(
+                        SELECT
+                            "CUSTOMER_ID" AS "고객번호",
+                            "CUSTOMER_NAME" AS "고객이름",
+                            FORMAT(
+                                '%s-%s-%s',
+                                SUBSTRING(LPAD(CAST("CUSTOMER_PHONE" AS TEXT), 11, '0') FROM 1 FOR 3),
+                                SUBSTRING(LPAD(CAST("CUSTOMER_PHONE" AS TEXT), 11, '0') FROM 4 FOR 4),
+                                SUBSTRING(LPAD(CAST("CUSTOMER_PHONE" AS TEXT), 11, '0') FROM 8 FOR 4)
+                            ) AS "전화번호",
+                            "BIRTH_DATE" AS "생년월일",
+                            "GENDER" AS "성별",
+                            "ADDRESS" AS "주소", "NOTES" AS "메모"
+                        FROM "CUSTOMER"
+                        WHERE
+                            (COALESCE(CAST(:phone AS TEXT), '') = '' OR "CUSTOMER_PHONE"::TEXT ILIKE :phone)
+                          AND
+                            (COALESCE(:name, '') = '' OR "CUSTOMER_NAME" ILIKE :name)
+    )";
 } // namespace QueryManager

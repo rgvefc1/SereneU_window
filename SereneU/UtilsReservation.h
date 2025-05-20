@@ -22,7 +22,7 @@ struct ReservationData {
     int           price;                // 시술 가격
     int           deposit;              // 예약금
     QDateTime     reservationTime;      // 예약 시간
-    QString       status;               // status: "대기","확정","완료","취소","노쇼"
+    int           status;               // status: "0: 확정","1: 리터치", " 2.완료","3.취소","4.노쇼"
     bool          retouch;              // retouch
     QString       notes;                // 메모
     QString       cancellationReason;   // 예약 취소 사유.
