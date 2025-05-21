@@ -158,24 +158,28 @@ bool UtilsReservation::searchReservationAll(QTableView* tableview)
 
 bool UtilsReservation::insertReservation(ReservationData data)
 {
-    query.prepare(R"(
-        INSERT INTO "RESERVATION" 
-        ("CUSTOMER_ID", "SERVICE_TYPE", "RESERVATION_TIME", "RETOUCH", "DEPOSIT")
-        VALUES (:customer_id, :service_type, :reservation_time, :retouch, :deposit)
-    )");
+    query.prepare(QueryManager::INSERT_RESERVATION);
 
     // 파라미터 바인딩
     query.bindValue(":customer_id", data.customerId);
-    query.bindValue(":service_type", data.serviceName);
-    query.bindValue(":reservation_time", data.reservationTime);
-    query.bindValue(":retouch", data.retouch);
+    query.bindValue(":customer_name", data.customerName);
+    query.bindValue(":customer_phone", data.customerPhone);
+    query.bindValue(":service_id", data.serviceId);
+    query.bindValue(":service_name", data.serviceName);
+    query.bindValue(":price", data.price);
     query.bindValue(":deposit", data.deposit);
+    query.bindValue(":reservation_time", data.reservationTime);
+    query.bindValue("status", data.status);
+    query.bindValue(":retouch", data.retouch);
+    query.bindValue(":notes", data.notes);
 
     // 쿼리 실행
     if (query.exec()) {
+        qDebug() << "예약 성공";
         return true;
     }
     else {
+        qDebug() << "❌ 예약등록 쿼리 실패:" << query.lastError().text();
         return false;
     }
 }

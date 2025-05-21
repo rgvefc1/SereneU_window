@@ -23,11 +23,18 @@ void ReservationModel::setDataFromQuery(QSqlQuery& query)
     while (query.next()) {
         QStringList row;
         for (int i = 0; i < colCount; ++i) {
-            if (headers.at(i)  == "상태") {
-                qDebug() << "상태체크 : " << query.value(i).toString();
-            }
-            else if (headers.at(i) == "리터치") {
+            if (headers.at(i) == "리터치") {
                 query.value(i).toBool() ? row << "✔️" : row << "❌";
+            }
+            else if (headers.at(i) == "상태") {
+                switch (query.value(i).toInt()) {
+                case 0: row << "예약"; break;
+                case 1: row << "리터치"; break;
+                case 2: row << "완료"; break;
+                case 3: row << "취소"; break;
+                case 4: row << "노쇼"; break;
+                default: row << "예약"; break;
+                }
             }
             else {
                 row << query.value(i).toString();

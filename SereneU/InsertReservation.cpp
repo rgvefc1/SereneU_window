@@ -57,6 +57,27 @@ InsertReservation::~InsertReservation()
     s_instance.clear();       // 🔹 다이얼로그가 지워질 때 전역 포인터도 null
 }
 
+void InsertReservation::setReservationData(ReservationData selectData)
+{
+    ui->searchData->setText(selectData.customerPhone);
+    searchBtnClick();
+    ui->serviceType->setCurrentIndex(selectData.serviceId);
+    QDateTime dt = selectData.reservationTime;
+    ui->reservationDate->setDate(dt.date());
+    ui->reservationTime->setTime(dt.time());
+    ui->price->setValue(selectData.price);
+    ui->deposit->setValue(selectData.deposit);
+    ui->memo->setText(selectData.notes);
+    switch (selectData.status) {
+    case 0: ui->state_0->setChecked(true); break;
+    case 1: ui->state_1->setChecked(true); break;
+    case 2: ui->state_2->setChecked(true); break;
+    case 3: ui->state_3->setChecked(true); break;
+    case 4: ui->state_4->setChecked(true); break;
+    }
+    ui->retouch->setChecked(selectData.retouch);
+}
+
 /* ===== 버튼 슬롯 ===== */
 void InsertReservation::insertCustomerBtnClick()
 {
@@ -87,6 +108,10 @@ void InsertReservation::searchBtnClick()
     if (sel) {
         connect(sel, &QItemSelectionModel::currentRowChanged,this, &InsertReservation::onCurrentRowChanged,Qt::UniqueConnection);          // 중복 연결 방지
     }
+
+    if (ui->searchCustomerView->model()->rowCount() > 0) {
+        ui->searchCustomerView->selectRow(0);
+    }
 }
 
 void InsertReservation::insertReservationBtnClick()
@@ -109,7 +134,7 @@ void InsertReservation::insertReservationBtnClick()
     else if (ui->state_4->isChecked()) {data.status = 4; }
 
     int result = reservation.insertReservation(data);
-    if (result) {
+    if (!result) {
         QMessageBox::warning(this, "오류", "예약 등록에 실패했습니다.");
     }
     else {
@@ -118,9 +143,10 @@ void InsertReservation::insertReservationBtnClick()
             .arg(data.reservationTime.toString("yyyy-MM-dd HH:mm:ss"))     // %2 (예: "2025-06-01 14:00")
             .arg(data.serviceName);    // %3
         QMessageBox::information(this,tr("예약 완료"),msg);     
+        emit reservationCompleted();
     }
     accept();
-    emit reservationCompleted();
+    
 }
 
 void InsertReservation::updateReservationBtnClick()

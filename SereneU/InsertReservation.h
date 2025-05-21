@@ -23,6 +23,7 @@ public:
         const QDate& date = QDate::currentDate());
 
     ~InsertReservation() override;
+    void setReservationData(ReservationData data);
 
 signals:
     void reservationCompleted();                //!< 예약 완료 시그널

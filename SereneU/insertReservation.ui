@@ -253,14 +253,14 @@
      <item>
       <widget class="QRadioButton" name="state_0">
        <property name="text">
-        <string>대기</string>
+        <string>예약</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QRadioButton" name="state_1">
        <property name="text">
-        <string>확정</string>
+        <string>리터치</string>
        </property>
       </widget>
      </item>

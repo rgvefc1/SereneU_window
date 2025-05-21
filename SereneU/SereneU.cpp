@@ -83,6 +83,10 @@ void SereneU::onCalendarDateClicked(const QDate& date)
     if (!success) {
         qDebug() << "❌ 예약 정보 로딩 실패";
     }
+    ui->reservationView->hideColumn(0);
+    ui->reservationView->hideColumn(2);
+    ui->reservationView->hideColumn(5);
+    ui->reservationView->hideColumn(12);
 }
 
 
@@ -166,20 +170,33 @@ void SereneU::onReservationRowDoubleClicked(const QModelIndex& index)
     int col = index.column();
 
     // ✅ 선택된 예약 정보 가져오기
-    int reservationId = index.model()->data(index.model()->index(row, 0), Qt::DisplayRole).toInt();
-    QString reservationDate = index.model()->data(index.model()->index(row, 1), Qt::DisplayRole).toString();
-    QString name = index.model()->data(index.model()->index(row, 2), Qt::DisplayRole).toString();
-    QString phone = index.model()->data(index.model()->index(row, 3), Qt::DisplayRole).toString();
-    QString serviceType = index.model()->data(index.model()->index(row, 4), Qt::DisplayRole).toString();
-    int deposit = index.model()->data(index.model()->index(row, 5), Qt::DisplayRole).toInt();
-    //bool retouch = index.model()->data(index.model()->index(row, 6), Qt::DisplayRole).toBool();
-    QString retouchStr = index.model()->data(index.model()->index(row, 6), Qt::DisplayRole).toString();
-    bool retouch = (retouchStr == "✔️");
+    ReservationData data;
+    data.reservationId = index.model()->data(index.model()->index(row, 0), Qt::DisplayRole).toInt();
+    data.reservationTime = index.model()->data(index.model()->index(row, 1), Qt::DisplayRole).toDateTime();
+    data.customerId = index.model()->data(index.model()->index(row, 2), Qt::DisplayRole).toInt();
+    data.customerName = index.model()->data(index.model()->index(row, 3), Qt::DisplayRole).toString();
+    data.customerPhone = index.model()->data(index.model()->index(row, 4), Qt::DisplayRole).toString().replace("-","");
+    data.serviceId= index.model()->data(index.model()->index(row, 5), Qt::DisplayRole).toInt();
+    data.serviceName = index.model()->data(index.model()->index(row, 6), Qt::DisplayRole).toString();
+    data.price = index.model()->data(index.model()->index(row, 7), Qt::DisplayRole).toInt();
+    data.deposit = index.model()->data(index.model()->index(row, 8), Qt::DisplayRole).toInt();
+    QString retouchStr = index.model()->data(index.model()->index(row, 9), Qt::DisplayRole).toString();
+    data.retouch = (retouchStr == "✔️");
+    QString statusStr = index.model()->data(index.model()->index(row, 10), Qt::DisplayRole).toString();
+    if (statusStr == "예약") data.status = 0;
+    else if (statusStr == "리터치") data.status = 1;
+    else if (statusStr == "완료") data.status = 2;
+    else if (statusStr == "취소") data.status = 3;
+    else if (statusStr == "노쇼") data.status = 4;
+    data.notes = index.model()->data(index.model()->index(row, 11), Qt::DisplayRole).toString();
+    
+
     // ✅ 상세 보기 다이얼로그 생성 및 데이터 설정
-    ReservationDetail detailDialog(this);
-    detailDialog.setReservationData(reservationId, name, phone, reservationDate, serviceType, deposit, retouch);
+    QDate dataTime = data.reservationTime.date();
+    InsertReservation* resDlg = InsertReservation::showDialog(this, dataTime);
+    resDlg->setReservationData(data);
+    connect(resDlg, &InsertReservation::reservationCompleted, this, &SereneU::refreshCalendar);  // 예약 완료 시 새로고침
 
-    connect(&detailDialog, &ReservationDetail::reservationUpdated, this, &SereneU::refreshCalendar);  // 예약 완료 시 새로고침
+    
 
-    detailDialog.exec();
 }
