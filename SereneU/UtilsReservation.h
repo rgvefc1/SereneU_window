@@ -12,8 +12,8 @@
 // reservationData 구조체
 struct ReservationData {
     int           reservationId;        // 예약ID
-    QDateTime     createdAt;            // 예약 생성 시간
-    QDateTime     updatedAt;            // 예약 수정 시간
+    QDateTime     createdAt;              // 예약 생성 시간
+    QDateTime     updatedAt;              // 예약 수정 시간
     int           customerId;           // 예약자 ID
     QString       customerName;         // 예약자 이름
     QString       customerPhone;        // 예약자 전화번호
@@ -21,7 +21,7 @@ struct ReservationData {
     QString       serviceName;          // 시술 이름
     int           price;                // 시술 가격
     int           deposit;              // 예약금
-    QDateTime     reservationTime;      // 예약 시간
+    QDateTime     reservationTime;        // 예약 시간
     int           status;               // status: "0: 확정","1: 리터치", " 2.완료","3.취소","4.노쇼"
     bool          retouch;              // retouch
     QString       notes;                // 메모

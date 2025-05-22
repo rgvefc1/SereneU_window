@@ -29,6 +29,7 @@ void InsertCustomer::onSaveBtnClick()
     data.customerPhone = ui->customerPhone->text().trimmed();
     data.birthDate = ui->birthDate->date();
     ui->gender0->isChecked() ? data.gender = 0 : data.gender = 1;
+    data.visitRoot = ui->visitRoot->text();
     data.address = ui->address->text().trimmed();
     data.memo = ui->memo->toPlainText();
 

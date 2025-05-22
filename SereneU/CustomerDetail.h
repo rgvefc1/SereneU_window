@@ -2,13 +2,14 @@
 #include <QDialog>
 #include <QToolButton>
 #include <QStringList>
+#include <UtilsCustomer.h>
 
 namespace Ui { class CustomerDetail; }
 
 class CustomerDetail : public QDialog {
     Q_OBJECT
 public:
-    explicit CustomerDetail(const QString& customerId, QWidget* parent = nullptr);
+    explicit CustomerDetail(CustomerData& initData, QWidget* parent = nullptr);
     ~CustomerDetail();
 
 private slots:
@@ -19,6 +20,6 @@ private:
     void saveImage(int idx, const QString& srcFile);
 
     Ui::CustomerDetail* ui;
-    QString customerId;
+    CustomerData data;
     QList<QToolButton*> imageBtns;
 };

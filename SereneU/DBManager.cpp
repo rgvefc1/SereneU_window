@@ -4,6 +4,7 @@
 #include <qevent.h>
 #include <QFile>
 #include <QXmlStreamReader>
+#include <QtSql/qsqlquery.h>
 
 // 싱글톤 인스턴스
 DBManager& DBManager::instance()
@@ -56,6 +57,19 @@ bool DBManager::connectToDatabase(const QString& host, int port, const QString& 
     }
 
     qDebug() << "✅ DB 연결 성공!";
+
+    // ── 여기에 세션 타임존 고정 ──
+    {
+        QSqlQuery tzQuery(db);
+        // UTC로 고정: LocalTime↔UTC 변환 없이 그대로 주고받기
+        if (!tzQuery.exec("SET TIME ZONE 'Asia/Seoul'")) {
+            qWarning() << "타임존 고정 실패:" << tzQuery.lastError().text();
+            // 실패해도 계속 진행할 수 있습니다.
+        }
+        else {
+            qDebug() << "세션 타임존을 UTC로 설정했습니다.";
+        }
+    }
     return true;
 }
 

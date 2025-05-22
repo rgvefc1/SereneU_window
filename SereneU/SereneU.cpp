@@ -113,6 +113,7 @@ void SereneU::onCustomerView()
 {
     UtilsCustomer customer;
     customer.allCustomerInfo(ui->customerView);
+    ui->customerView->hideColumn(0);
 }
 //고객정보 검색
 void SereneU::onCustomerSearch()
@@ -120,16 +121,23 @@ void SereneU::onCustomerSearch()
     QString name = ui->customerName_2->text();
     QString phone = ui->customerPhone_2->text();
     bool result = customer.searchCustomerInfo(ui->customerView, name, phone);
+    ui->customerView->hideColumn(0);
 }
 //고객리스트 더블 클릭 이벤트 처리
 void SereneU::onCustormrRowDoubleClicked(const QModelIndex& index)
 {
     int row = index.row();
     int col = index.column();
-    QString customerId = index.model()->data(index.model()->index(row, 1), Qt::DisplayRole).toString();
-    customerId.replace("-", "");
-    if (customerId.startsWith("0")) customerId.removeFirst();
-    CustomerDetail customerDedail(customerId,this);
+    CustomerData data;
+    data.customerId = index.model()->data(index.model()->index(row, 0), Qt::DisplayRole).toInt();
+    data.customerName = index.model()->data(index.model()->index(row, 1), Qt::DisplayRole).toString();
+    data.customerPhone = index.model()->data(index.model()->index(row, 2), Qt::DisplayRole).toString();
+    data.birthDate = index.model()->data(index.model()->index(row, 3), Qt::DisplayRole).toDate();
+    data.gender = index.model()->data(index.model()->index(row, 4), Qt::DisplayRole).toBool();
+    data.address = index.model()->data(index.model()->index(row, 5), Qt::DisplayRole).toString();
+    data.visitRoot = index.model()->data(index.model()->index(row, 6), Qt::DisplayRole).toString();
+    data.memo = index.model()->data(index.model()->index(row, 7), Qt::DisplayRole).toString();
+    CustomerDetail customerDedail(data,this);
     customerDedail.exec();
 }
 
@@ -145,6 +153,7 @@ void SereneU::onAddReservationButtonClicked()
     }
     InsertReservation* resDlg = InsertReservation::showDialog(this, selectedDate);
     connect(resDlg, &InsertReservation::reservationCompleted,this, &SereneU::refreshCalendar);  // 예약 완료 시 새로고침
+    resDlg->clearReservationData(selectedDate);
 }
 
 // 🔄 캘린더 새로고침
@@ -172,7 +181,9 @@ void SereneU::onReservationRowDoubleClicked(const QModelIndex& index)
     // ✅ 선택된 예약 정보 가져오기
     ReservationData data;
     data.reservationId = index.model()->data(index.model()->index(row, 0), Qt::DisplayRole).toInt();
-    data.reservationTime = index.model()->data(index.model()->index(row, 1), Qt::DisplayRole).toDateTime();
+    QString timeStr = index.model()->data(index.model()->index(row, 1), Qt::DisplayRole).toString();
+    QDateTime dt = QDateTime::fromString(timeStr, "yyyy-MM-dd HH시mm분");
+    data.reservationTime = dt;
     data.customerId = index.model()->data(index.model()->index(row, 2), Qt::DisplayRole).toInt();
     data.customerName = index.model()->data(index.model()->index(row, 3), Qt::DisplayRole).toString();
     data.customerPhone = index.model()->data(index.model()->index(row, 4), Qt::DisplayRole).toString().replace("-","");

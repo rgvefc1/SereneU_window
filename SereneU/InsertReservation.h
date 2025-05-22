@@ -24,7 +24,8 @@ public:
 
     ~InsertReservation() override;
     void setReservationData(ReservationData data);
-
+    void clearReservationData(const QDate& date);
+    explicit InsertReservation(QWidget* parent, const QDate& selectedDate);
 signals:
     void reservationCompleted();                //!< 예약 완료 시그널
 
@@ -36,10 +37,11 @@ private slots:                                  // 내부 슬롯 (버튼 핸들�
     void searchBtnClick();
     void insertReservationBtnClick();
     void updateReservationBtnClick();
+    void cancelBtnClick();
     void onCurrentRowChanged(const QModelIndex& current, const QModelIndex&/*previous*/);
 
 private:                                        // 내부 헬퍼
-    explicit InsertReservation(QWidget* parent, const QDate& selectedDate);
+    
     void serviceComboBoxSetting(QComboBox* comboBox);
 
     Ui::InsertReservation* ui = nullptr;

@@ -17,6 +17,7 @@ struct CustomerData {
     QDateTime createdAt;         // 가입날자
     QString   customerPhone;     // 전화번호
     QString   address;           // 주소
+    QString visitRoot;           //방문경로
     int       visitCount;        // 방문 횟수
     QDateTime lastVisitDate;     // 마지막 방문 날자
     QString memo;

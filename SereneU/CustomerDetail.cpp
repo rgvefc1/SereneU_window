@@ -6,18 +6,25 @@
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 #include <QDebug>
+#include <UtilsCustomer.h>
 
-CustomerDetail::CustomerDetail(const QString& customerId, QWidget* parent)
-    : QDialog(parent), ui(new Ui::CustomerDetail), customerId(customerId)
+CustomerDetail::CustomerDetail(CustomerData& initData, QWidget* parent)
+    : QDialog(parent), ui(new Ui::CustomerDetail)
 {
     ui->setupUi(this);
     
-    //// 2) 기본 QPixmap 로드
-    //QPixmap defaultPixmap("C:/SereneU_window/bin/img/testImg.jpg");
-    //QSize targetSize(120, 120);
-    //ui->labelImg0->setPixmap(defaultPixmap);
-    //ui->labelImg0->setFixedSize(targetSize);
+    setWindowTitle("고객 정보");
+    data = initData;
 
+    ui->customerName->setText(data.customerName);
+    ui->customerPhone->setText(data.customerPhone);
+    ui->birthDate->setDate(data.birthDate);
+    data.gender ? ui->gender1->setChecked(true) : ui->gender0->setChecked(true);
+    ui->visitRoot->setText(data.visitRoot);
+    ui->address->setText(data.address);
+    ui->memo->setPlainText(data.memo);
+
+    connect(ui->uploadImg, &QPushButton::clicked, this, &CustomerDetail::onImageBtnClicked);
 }
 
 CustomerDetail::~CustomerDetail() {
@@ -34,7 +41,7 @@ void CustomerDetail::loadImages() {
         ORDER BY created_at
         LIMIT 10
     )");
-    query.bindValue(":cid", customerId);
+    //query.bindValue(":cid", customerId);
     if (!query.exec()) {
         qWarning() << "이미지 로드 실패:" << query.lastError().text();
         return;
@@ -65,19 +72,29 @@ void CustomerDetail::onImageBtnClicked(int index) {
     saveImage(index, srcFile);
 
     // 버튼 아이콘 갱신
-    imageBtns[index]->setIcon(QIcon(srcFile));
+    //imageBtns[index]->setIcon(QIcon(srcFile));
 }
 
 void CustomerDetail::saveImage(int idx, const QString& srcFile) {
     // 1) 고객별 폴더 생성 (./images/{customerId}/)
     QDir rootDir(QCoreApplication::applicationDirPath() + "/images");
     if (!rootDir.exists()) rootDir.mkpath(".");
-    QDir custDir(rootDir.filePath(customerId));
+    
+    QString idStr = QString::number(data.customerId);
+
+    QDir custDir(rootDir.filePath(idStr));
     if (!custDir.exists()) custDir.mkpath(".");
 
     // 2) 파일 복사 (timestamp_원본이름)
-    QString fn = QString::number(QDateTime::currentSecsSinceEpoch())
-        + "_" + QFileInfo(srcFile).fileName();
+    QDir dir(custDir);
+    dir.setFilter(QDir::Files | QDir::NoDotAndDotDot);
+    QStringList fileList = dir.entryList();
+
+    QFileInfo info(srcFile);
+    QString ext = info.suffix();  // 예: "png", "jpg"
+
+    QString numStr = QString::number(fileList.count());
+    QString fn = numStr + QStringLiteral(".") + ext;
     QString dstPath = custDir.filePath(fn);
     if (!QFile::copy(srcFile, dstPath)) {
         qWarning() << "이미지 복사 실패:" << srcFile << "->" << dstPath;
@@ -87,11 +104,23 @@ void CustomerDetail::saveImage(int idx, const QString& srcFile) {
     // 3) DB에 경로 저장
     QSqlQuery query(DBManager::instance().getDatabase());
     query.prepare(R"(
-        INSERT INTO customer_images (customer_id, image_path)
-        VALUES (:cid, :path)
+        INSERT INTO public."IMAGEDATA"
+                ( "CUSTOMER_ID"
+                , "IMG_PATH"
+                , "IMG_NUM"
+                , "RESERVATION_ID"
+                )
+            VALUES
+                ( :customerId    
+                , :imgPath      
+                , :imgNum        
+                , :reservationId 
+                )
     )");
-    query.bindValue(":cid", customerId);
-    query.bindValue(":path", dstPath);
+    query.bindValue(":customerId", idStr);
+    query.bindValue(":imgPath", dstPath);
+    query.bindValue(":imgNum", numStr);
+
     if (!query.exec()) {
         qWarning() << "이미지 DB 저장 실패:" << query.lastError().text();
     }

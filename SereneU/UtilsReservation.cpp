@@ -32,7 +32,6 @@ bool UtilsReservation::searchReservationByDate(QTableView* tableview, const QStr
     }
 
     QSqlQuery cleanup(DBManager::instance().getDatabase());
-    cleanup.exec("DEALLOCATE ALL");
 
     QSqlQuery query(DBManager::instance().getDatabase());
     query.prepare(QueryManager::RESERVATION_BY_DATE);
@@ -168,7 +167,7 @@ bool UtilsReservation::insertReservation(ReservationData data)
     query.bindValue(":service_name", data.serviceName);
     query.bindValue(":price", data.price);
     query.bindValue(":deposit", data.deposit);
-    query.bindValue(":reservation_time", data.reservationTime);
+    query.bindValue(":reservation_time", data.reservationTime.toString("yyyy-MM-dd HH:mm:ss"));
     query.bindValue("status", data.status);
     query.bindValue(":retouch", data.retouch);
     query.bindValue(":notes", data.notes);
@@ -186,21 +185,19 @@ bool UtilsReservation::insertReservation(ReservationData data)
 
 bool UtilsReservation::updateReservation(ReservationData data)
 {
-    query.prepare(R"(
-        UPDATE "RESERVATION" 
-        SET "RESERVATION_TIME" = :reservation_time,
-            "CUSTOMER_ID" = :customer_id,
-            "SERVICE_TYPE" = :service_type, 
-            "RETOUCH" = :retouch, 
-            "DEPOSIT" = :deposit
-        WHERE "RESERVATION_ID" = :reservation_id
-    )");
+    query.prepare(QueryManager::UPDATE_RESERVATION);
     // 파라미터 바인딩
-    query.bindValue(":reservation_time", data.reservationTime);
     query.bindValue(":customer_id", data.customerId);
+    query.bindValue(":customer_name", data.customerName);
+    query.bindValue(":customer_phone", data.customerPhone);
+    query.bindValue(":service_id", data.serviceId);
     query.bindValue(":service_type", data.serviceName);
-    query.bindValue(":retouch", data.retouch);
+    query.bindValue(":price", data.price);
     query.bindValue(":deposit", data.deposit);
+    query.bindValue(":reservation_time",data.reservationTime.toString("yyyy-MM-dd HH:mm:ss"));
+    query.bindValue(":status", data.status);
+    query.bindValue(":retouch", data.retouch);
+    query.bindValue(":notes", data.notes);
     query.bindValue(":reservation_id", data.reservationId);
 
     // 쿼리 실행

@@ -19,10 +19,16 @@ void CustomerModel::setDataFromQuery(QSqlQuery& query)
     for (int i = 0; i < colCount; ++i) {
         headers << query.record().fieldName(i);
     }
+
     while (query.next()) {
         QStringList row;
         for (int i = 0; i < colCount; ++i) {
-            row << query.value(i).toString();
+            if (headers.at(i) == "성별") {
+                query.value(i).toBool() ? row << "남" : row << "여";
+            }
+            else {
+                row << query.value(i).toString();
+            }
         }
         tableData.append(row);
     }

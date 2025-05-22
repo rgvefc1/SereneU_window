@@ -28,10 +28,7 @@ UtilsCustomer::~UtilsCustomer()
 bool UtilsCustomer::isPhoneNumberExists(const QString& phoneNumber)
 {
     QSqlQuery query;
-    query.prepare(R"(
-        SELECT COUNT(*) FROM "CUSTOMER"
-        WHERE "CUSTOMER_PHONE" = :phone
-    )");
+    query.prepare(QueryManager::PHONE_NUMBER_EXISTS);
     query.bindValue(":phone", phoneNumber);
 
     if (!query.exec()) {
@@ -67,17 +64,7 @@ bool UtilsCustomer::searchCustomerInfo(QTableView* tableView,QString name, QStri
 bool UtilsCustomer::allCustomerInfo(QTableView* tableView)
 {
     QSqlQuery query;
-    query.prepare(R"(
-                        SELECT
-                            "CUSTOMER_NAME" AS "고객이름",
-                            FORMAT(
-                                '%s-%s-%s',
-                                SUBSTRING(LPAD(CAST("CUSTOMER_PHONE" AS TEXT), 11, '0') FROM 1 FOR 3),
-                                SUBSTRING(LPAD(CAST("CUSTOMER_PHONE" AS TEXT), 11, '0') FROM 4 FOR 4),
-                                SUBSTRING(LPAD(CAST("CUSTOMER_PHONE" AS TEXT), 11, '0') FROM 8 FOR 4)
-                            ) AS "전화번호"
-                        FROM "CUSTOMER"
-                    )");
+    query.prepare(QueryManager::ALL_CUSTOMER_INFO);
 
     if (!query.exec()) {
         qDebug() << "❌ 쿼리 실패:" << query.lastError().text();
