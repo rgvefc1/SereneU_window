@@ -36,7 +36,7 @@ public:
     ~UtilsReservation();
 
     bool searchReservationByDate(QTableView* tableview, const QString& date);
-    bool searchReservationByCustomer(QTableView* tableview, QString& customerId);
+    bool searchReservationByCustomer(QTableView* tableview, int customerId);
     bool searchReservationAll(QTableView* tableview);
     bool insertReservation(ReservationData data);
     bool updateReservation(ReservationData data);

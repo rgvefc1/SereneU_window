@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>922</width>
-    <height>697</height>
+    <width>950</width>
+    <height>664</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>10</x>
      <y>10</y>
      <width>271</width>
-     <height>391</height>
+     <height>351</height>
     </rect>
    </property>
    <property name="title">
@@ -31,7 +31,7 @@
       <x>10</x>
       <y>30</y>
       <width>251</width>
-      <height>351</height>
+      <height>311</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -131,58 +131,6 @@
        </item>
       </layout>
      </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <property name="spacing">
-          <number>6</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="QPushButton" name="updateCustomer">
-           <property name="text">
-            <string>고객정보수정</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="deleteCustomer">
-           <property name="text">
-            <string>고객정보삭제</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <property name="spacing">
-          <number>6</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="QPushButton" name="uploadImg">
-           <property name="text">
-            <string>사진등록</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="deleteImg">
-           <property name="text">
-            <string>사진삭제</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </item>
     </layout>
    </widget>
   </widget>
@@ -190,8 +138,8 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>410</y>
-     <width>901</width>
+     <y>360</y>
+     <width>931</width>
      <height>281</height>
     </rect>
    </property>
@@ -203,7 +151,7 @@
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>881</width>
+      <width>910</width>
       <height>241</height>
      </rect>
     </property>
@@ -212,10 +160,10 @@
   <widget class="QGroupBox" name="groupBox_3">
    <property name="geometry">
     <rect>
-     <x>280</x>
-     <y>20</y>
-     <width>631</width>
-     <height>381</height>
+     <x>290</x>
+     <y>10</y>
+     <width>651</width>
+     <height>301</height>
     </rect>
    </property>
    <property name="title">
@@ -225,121 +173,126 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>60</y>
-      <width>611</width>
-      <height>251</height>
+      <y>30</y>
+      <width>628</width>
+      <height>252</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QLabel" name="labelImg0">
+        <widget class="QPushButton" name="imgBtn0">
          <property name="maximumSize">
           <size>
            <width>120</width>
            <height>120</height>
           </size>
          </property>
-         <property name="frameShape">
-          <enum>QFrame::Shape::Box</enum>
-         </property>
          <property name="text">
           <string/>
          </property>
-         <property name="pixmap">
-          <pixmap resource="SereneU.qrc">:/images/default_img.jpg</pixmap>
+         <property name="icon">
+          <iconset resource="SereneU.qrc">
+           <normaloff>:/images/default_img.jpg</normaloff>:/images/default_img.jpg</iconset>
          </property>
-         <property name="scaledContents">
-          <bool>true</bool>
+         <property name="iconSize">
+          <size>
+           <width>120</width>
+           <height>120</height>
+          </size>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="labelImg1">
+        <widget class="QPushButton" name="imgBtn1">
          <property name="maximumSize">
           <size>
            <width>120</width>
            <height>120</height>
           </size>
          </property>
-         <property name="frameShape">
-          <enum>QFrame::Shape::Box</enum>
-         </property>
          <property name="text">
           <string/>
          </property>
-         <property name="pixmap">
-          <pixmap resource="SereneU.qrc">:/images/default_img.jpg</pixmap>
+         <property name="icon">
+          <iconset resource="SereneU.qrc">
+           <normaloff>:/images/default_img.jpg</normaloff>:/images/default_img.jpg</iconset>
          </property>
-         <property name="scaledContents">
-          <bool>true</bool>
+         <property name="iconSize">
+          <size>
+           <width>120</width>
+           <height>120</height>
+          </size>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="labelImg2">
+        <widget class="QPushButton" name="imgBtn2">
          <property name="maximumSize">
           <size>
            <width>120</width>
            <height>120</height>
           </size>
          </property>
-         <property name="frameShape">
-          <enum>QFrame::Shape::Box</enum>
-         </property>
          <property name="text">
           <string/>
          </property>
-         <property name="pixmap">
-          <pixmap resource="SereneU.qrc">:/images/default_img.jpg</pixmap>
+         <property name="icon">
+          <iconset resource="SereneU.qrc">
+           <normaloff>:/images/default_img.jpg</normaloff>:/images/default_img.jpg</iconset>
          </property>
-         <property name="scaledContents">
-          <bool>true</bool>
+         <property name="iconSize">
+          <size>
+           <width>120</width>
+           <height>120</height>
+          </size>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="labelImg3">
+        <widget class="QPushButton" name="imgBtn3">
          <property name="maximumSize">
           <size>
            <width>120</width>
            <height>120</height>
           </size>
          </property>
-         <property name="frameShape">
-          <enum>QFrame::Shape::Box</enum>
-         </property>
          <property name="text">
           <string/>
          </property>
-         <property name="pixmap">
-          <pixmap resource="SereneU.qrc">:/images/default_img.jpg</pixmap>
+         <property name="icon">
+          <iconset resource="SereneU.qrc">
+           <normaloff>:/images/default_img.jpg</normaloff>:/images/default_img.jpg</iconset>
          </property>
-         <property name="scaledContents">
-          <bool>true</bool>
+         <property name="iconSize">
+          <size>
+           <width>120</width>
+           <height>120</height>
+          </size>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="labelImg4">
+        <widget class="QPushButton" name="imgBtn4">
          <property name="maximumSize">
           <size>
            <width>120</width>
            <height>120</height>
           </size>
          </property>
-         <property name="frameShape">
-          <enum>QFrame::Shape::Box</enum>
-         </property>
          <property name="text">
           <string/>
          </property>
-         <property name="pixmap">
-          <pixmap resource="SereneU.qrc">:/images/default_img.jpg</pixmap>
+         <property name="icon">
+          <iconset resource="SereneU.qrc">
+           <normaloff>:/images/default_img.jpg</normaloff>:/images/default_img.jpg</iconset>
          </property>
-         <property name="scaledContents">
-          <bool>true</bool>
+         <property name="iconSize">
+          <size>
+           <width>120</width>
+           <height>120</height>
+          </size>
          </property>
         </widget>
        </item>
@@ -348,112 +301,117 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="QLabel" name="labelImg5">
+        <widget class="QPushButton" name="imgBtn5">
          <property name="maximumSize">
           <size>
            <width>120</width>
            <height>120</height>
           </size>
          </property>
-         <property name="frameShape">
-          <enum>QFrame::Shape::Box</enum>
-         </property>
          <property name="text">
           <string/>
          </property>
-         <property name="pixmap">
-          <pixmap resource="SereneU.qrc">:/images/default_img.jpg</pixmap>
+         <property name="icon">
+          <iconset resource="SereneU.qrc">
+           <normaloff>:/images/default_img.jpg</normaloff>:/images/default_img.jpg</iconset>
          </property>
-         <property name="scaledContents">
-          <bool>true</bool>
+         <property name="iconSize">
+          <size>
+           <width>120</width>
+           <height>120</height>
+          </size>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="labelImg6">
+        <widget class="QPushButton" name="imgBtn6">
          <property name="maximumSize">
           <size>
            <width>120</width>
            <height>120</height>
           </size>
          </property>
-         <property name="frameShape">
-          <enum>QFrame::Shape::Box</enum>
-         </property>
          <property name="text">
           <string/>
          </property>
-         <property name="pixmap">
-          <pixmap resource="SereneU.qrc">:/images/default_img.jpg</pixmap>
+         <property name="icon">
+          <iconset resource="SereneU.qrc">
+           <normaloff>:/images/default_img.jpg</normaloff>:/images/default_img.jpg</iconset>
          </property>
-         <property name="scaledContents">
-          <bool>true</bool>
+         <property name="iconSize">
+          <size>
+           <width>120</width>
+           <height>120</height>
+          </size>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="labelImg7">
+        <widget class="QPushButton" name="imgBtn7">
          <property name="maximumSize">
           <size>
            <width>120</width>
            <height>120</height>
           </size>
          </property>
-         <property name="frameShape">
-          <enum>QFrame::Shape::Box</enum>
-         </property>
          <property name="text">
           <string/>
          </property>
-         <property name="pixmap">
-          <pixmap resource="SereneU.qrc">:/images/default_img.jpg</pixmap>
+         <property name="icon">
+          <iconset resource="SereneU.qrc">
+           <normaloff>:/images/default_img.jpg</normaloff>:/images/default_img.jpg</iconset>
          </property>
-         <property name="scaledContents">
-          <bool>true</bool>
+         <property name="iconSize">
+          <size>
+           <width>120</width>
+           <height>120</height>
+          </size>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="labelImg8">
+        <widget class="QPushButton" name="imgBtn8">
          <property name="maximumSize">
           <size>
            <width>120</width>
            <height>120</height>
           </size>
          </property>
-         <property name="frameShape">
-          <enum>QFrame::Shape::Box</enum>
-         </property>
          <property name="text">
           <string/>
          </property>
-         <property name="pixmap">
-          <pixmap resource="SereneU.qrc">:/images/default_img.jpg</pixmap>
+         <property name="icon">
+          <iconset resource="SereneU.qrc">
+           <normaloff>:/images/default_img.jpg</normaloff>:/images/default_img.jpg</iconset>
          </property>
-         <property name="scaledContents">
-          <bool>true</bool>
+         <property name="iconSize">
+          <size>
+           <width>120</width>
+           <height>120</height>
+          </size>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="labelImg9">
+        <widget class="QPushButton" name="imgBtn9">
          <property name="maximumSize">
           <size>
            <width>120</width>
            <height>120</height>
           </size>
          </property>
-         <property name="frameShape">
-          <enum>QFrame::Shape::Box</enum>
-         </property>
          <property name="text">
           <string/>
          </property>
-         <property name="pixmap">
-          <pixmap resource="SereneU.qrc">:/images/default_img.jpg</pixmap>
+         <property name="icon">
+          <iconset resource="SereneU.qrc">
+           <normaloff>:/images/default_img.jpg</normaloff>:/images/default_img.jpg</iconset>
          </property>
-         <property name="scaledContents">
-          <bool>true</bool>
+         <property name="iconSize">
+          <size>
+           <width>120</width>
+           <height>120</height>
+          </size>
          </property>
         </widget>
        </item>
@@ -461,6 +419,52 @@
      </item>
     </layout>
    </widget>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>320</y>
+     <width>651</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <property name="spacing">
+     <number>6</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QPushButton" name="updateCustomer">
+      <property name="text">
+       <string>고객정보수정</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="deleteCustomer">
+      <property name="text">
+       <string>고객정보삭제</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="uploadImg">
+      <property name="text">
+       <string>사진등록</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="deleteImg">
+      <property name="text">
+       <string>사진삭제</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources>

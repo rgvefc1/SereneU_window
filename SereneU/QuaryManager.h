@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <QString>
+#include <qstringliteral.h>
 
 // QueryManager: SQL 쿼리를 중앙에서 관리하는 헤더 파일
 // 사용 예: QSqlQuery query(db);
@@ -40,28 +41,30 @@ namespace QueryManager {
 
     // 고객별 예약 조회
     inline const QString RESERVATION_BY_CUSTOMER = R"(
-        SELECT
-            r."RESERVATION_ID"     AS "예약번호",
-            TO_CHAR(r."RESERVATION_TIME", 'YYYY-MM-DD HH24"시"MI"분"') AS "예약시간",
-            r."CUSTOMER_ID"        AS "예약자ID",
-            c."CUSTOMER_NAME"      AS "고객이름",
-            FORMAT(
-                '%s-%s-%s',
-                SUBSTRING(LPAD(CAST(c."CUSTOMER_PHONE" AS TEXT), 11, '0') FROM 1 FOR 3),
-                SUBSTRING(LPAD(CAST(c."CUSTOMER_PHONE" AS TEXT), 11, '0') FROM 4 FOR 4),
-                SUBSTRING(LPAD(CAST(c."CUSTOMER_PHONE" AS TEXT), 11, '0') FROM 8)
-            )                       AS "전화번호",
-            r."SERVICE_ID"         AS "시술ID",
-            s."SERVICE_NAME"       AS "시술종류",
-            s."PRICE"              AS "시술가격",
-            r."DEPOSIT"            AS "예약금",
-            r."RETOUCH"            AS "리터치",
-            r."STATUS"             AS "상태",
-            r."NOTES"              AS "메모",
-            r."CANCELLATION_REASON" AS "취소사유"
-        FROM "RESERVATION" r
-        JOIN "CUSTOMER"     c ON r."CUSTOMER_ID" = c."CUSTOMER_PHONE"
-        JOIN "SERVICE_TYPE" s ON r."SERVICE_ID"   = s."SERVICE_ID"
+             SELECT
+                 r."RESERVATION_ID"         AS "예약번호",
+                 TO_CHAR(
+                     r."RESERVATION_TIME",
+                     'YYYY-MM-DD HH24"시"MI"분"'
+                 )                           AS "예약시간",
+                 r."CUSTOMER_ID"            AS "예약자ID",
+                 c."CUSTOMER_NAME"          AS "고객이름",
+                 FORMAT(
+                     '%s-%s-%s',
+                     SUBSTRING(LPAD(CAST(c."CUSTOMER_PHONE" AS TEXT), 11, '0') FROM 1 FOR 3),
+                     SUBSTRING(LPAD(CAST(c."CUSTOMER_PHONE" AS TEXT), 11, '0') FROM 4 FOR 4),
+                     SUBSTRING(LPAD(CAST(c."CUSTOMER_PHONE" AS TEXT), 11, '0') FROM 8)
+                 )                           AS "전화번호",
+                 r."SERVICE_ID"             AS "시술ID",
+                 s."SERVICE_NAME"           AS "시술종류",
+                 r."PRICE"                  AS "시술가격",
+                 r."DEPOSIT"                AS "예약금",
+                 r."RETOUCH"                AS "리터치",
+                 r."STATUS"                 AS "상태",
+                 r."NOTES"                  AS "메모"
+             FROM "RESERVATION" r
+             JOIN "CUSTOMER"     c ON r."CUSTOMER_ID" = c."CUSTOMER_ID"
+             JOIN "SERVICE_TYPE" s ON r."SERVICE_ID"   = s."SERVICE_ID"
         WHERE r."CUSTOMER_ID" = :customerId
         ORDER BY r."RESERVATION_TIME"
     )";
@@ -100,7 +103,24 @@ namespace QueryManager {
         INSERT INTO "CUSTOMER" ("CUSTOMER_NAME", "CUSTOMER_PHONE","BIRTH_DATE","GENDER","ADDRESS","NOTES","VISIT_ROOT")
         VALUES (:name, :phone,:birthDate,:gender,:address,:notes,:visitroot)
     )";
-
+    inline const QString UPDATE_CUSTOMER = QStringLiteral(R"(
+            UPDATE public."CUSTOMER"
+            SET
+               "CUSTOMER_NAME"    = '%1',
+               "CUSTOMER_PHONE"   = '%2',
+               "BIRTH_DATE"       = '%3',
+               "GENDER"           = '%4',
+               "ADDRESS"          = '%5',
+               "NOTES"            = '%6',
+               "VISIT_ROOT"       = '%7'
+            WHERE
+               "CUSTOMER_ID"      = '%8'
+    )");
+    inline const QString DELETE_CUSTOMER = R"(
+            DELETE FROM public."CUSTOMER"
+            WHERE
+               "CUSTOMER_ID" = :customerId
+    )";
     inline const QString SEARCH_CUSTOMER_INFO = R"(
                         SELECT
                             "CUSTOMER_ID" AS "고객번호",
@@ -136,6 +156,7 @@ namespace QueryManager {
                             "VISIT_ROOT" AS "방문경로",
                             "NOTES" AS "메모"
                         FROM "CUSTOMER"
+                        ORDER BY "CUSTOMER_ID"
     )";
     inline const QString PHONE_NUMBER_EXISTS = R"(
                     SELECT COUNT(*) FROM "CUSTOMER"
@@ -161,5 +182,15 @@ namespace QueryManager {
                 "NOTES"             = :notes
             WHERE
                 "RESERVATION_ID"    = :reservation_id;
+    )";
+    inline const QString SELECT_IMAGEDATA = R"(
+        SELECT "IMAGE_ID"
+                , "CUSTOMER_ID"
+                , "IMG_PATH"
+                , "IMG_NUM"
+        FROM "IMAGEDATA"
+        WHERE "CUSTOMER_ID" = %1
+        ORDER BY "IMG_NUM"
+    
     )";
 } // namespace QueryManager

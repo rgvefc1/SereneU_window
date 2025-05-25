@@ -133,12 +133,21 @@ void SereneU::onCustormrRowDoubleClicked(const QModelIndex& index)
     data.customerName = index.model()->data(index.model()->index(row, 1), Qt::DisplayRole).toString();
     data.customerPhone = index.model()->data(index.model()->index(row, 2), Qt::DisplayRole).toString();
     data.birthDate = index.model()->data(index.model()->index(row, 3), Qt::DisplayRole).toDate();
-    data.gender = index.model()->data(index.model()->index(row, 4), Qt::DisplayRole).toBool();
+    if (index.model()->data(index.model()->index(row, 4), Qt::DisplayRole).toString() == "남") {
+        data.gender = true;
+    }
+    else {
+        data.gender = false;
+    }
     data.address = index.model()->data(index.model()->index(row, 5), Qt::DisplayRole).toString();
     data.visitRoot = index.model()->data(index.model()->index(row, 6), Qt::DisplayRole).toString();
     data.memo = index.model()->data(index.model()->index(row, 7), Qt::DisplayRole).toString();
-    CustomerDetail customerDedail(data,this);
-    customerDedail.exec();
+
+    CustomerDetail* customerDetail = new CustomerDetail(data, this);
+    connect(customerDetail, &CustomerDetail::customerUpdateSuccess, this, &SereneU::onCustomerView);  // 예약 완료 시 새로고침
+    customerDetail->exec();
+    
+    //delete customerDetail;
 }
 
 

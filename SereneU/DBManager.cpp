@@ -25,6 +25,8 @@ DBManager::DBManager()
     db.setPassword(config.password);
     db.setConnectOptions("connect_timeout=3");
 
+    
+
 
 }
 
@@ -49,7 +51,7 @@ bool DBManager::connectToDatabase(const QString& host, int port, const QString& 
     db.setUserName(user);
     db.setPassword(password);
     db.setConnectOptions("connect_timeout=3");
-
+    db.setConnectOptions("QPSQL_DISABLE_PREPARES=1");
     if (!db.open()) {
         lastErrorMsg = db.lastError().text();
         qDebug() << "❌ DB 연결 실패: " << db.lastError().text();
