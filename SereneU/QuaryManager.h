@@ -193,4 +193,9 @@ namespace QueryManager {
         ORDER BY "IMG_NUM"
     
     )";
+
+    inline const QString DELETE_IMAGEDATA = QStringLiteral(R"(
+            DELETE FROM public."IMAGEDATA"
+            WHERE "IMG_PATH" = '%1'
+    )");
 } // namespace QueryManager

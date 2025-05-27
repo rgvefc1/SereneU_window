@@ -12,6 +12,7 @@
 #include <QMessageBox>
 #include <QMouseEvent>
 #include <QUrl>
+#include <QtCharts/QChartView>
 
 CustomerDetail::CustomerDetail(const CustomerData& initData, QWidget* parent)
     : QDialog(parent), ui(new Ui::CustomerDetail)
@@ -80,8 +81,38 @@ bool CustomerDetail::eventFilter(QObject* watched, QEvent* event) {
 
 void CustomerDetail::onImageButtonRightClicked(int index)
 {
-    qDebug() << "버튼클릭!!!!" << index;
-   
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this,
+        tr("삭제 확인"),      // 창 제목
+        tr("해당 사진을 삭제 하시겠습니까?"), // 본문 메시지
+        QMessageBox::Yes | QMessageBox::No);
+
+    if (reply == QMessageBox::Yes) {
+        // 유효 범위 체크
+        if (index < 0 || index >= imageButtons.size()) {
+            qWarning() << "잘못된 인덱스:" << index;
+            return;
+        }
+
+        // 1) DB에서 해당 IMAGE_ID 삭제
+        QSqlQuery query(DBManager::instance().getDatabase());
+        QString sql = QueryManager::DELETE_IMAGEDATA.arg(imagePaths[index]);
+        if (!query.exec(sql)) {
+            qWarning() << "DB이미지 삭제 실패:" << query.lastError().text();
+            return;
+        }
+
+        // 2) 파일 시스템에서 이미지 파일 삭제
+        const QString& fileToRemove = imagePaths[index];
+        if (!QFile::remove(fileToRemove)) {
+            qWarning() << "파일 삭제 실패:" << fileToRemove;
+        }
+        imagePaths.clear();
+        loadImages();
+    }
+    else {
+        return;
+    }
 }
 
 void CustomerDetail::onCustomerUpdateBtnClicked()
